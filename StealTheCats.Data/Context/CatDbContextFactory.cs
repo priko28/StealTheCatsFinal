@@ -13,7 +13,7 @@ public class CatDbContextFactory : IDesignTimeDbContextFactory<CatDbContext>
 
         // Create DbContextOptions
         var optionsBuilder = new DbContextOptionsBuilder<CatDbContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.GetConnectionString("CatDB"); 
         optionsBuilder.UseSqlServer(connectionString);
 
         return new CatDbContext(optionsBuilder.Options);
