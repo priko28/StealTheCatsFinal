@@ -8,7 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 DotNetEnv.Env.Load();
 
 // Add services to the container.
-builder.Services.AddDbContext<CatDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CatDB")));
+
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+var connectionString = $"Data Source={dbHost};Initial Catalog={dbName};User ID=sa;Password={dbPassword};Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+builder.Services.AddDbContext<CatDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddHttpClient().AddScoped<ICatRepository, CatRepository>();
 builder.Services.AddHttpClient().AddScoped<ICatService, CatService>();
